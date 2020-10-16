@@ -16,19 +16,19 @@ This library provides methods for simulating encryption/decryption operations on
 
 Import the `SZ40` class from `lorenz.sz40` to gain access to the emulator. Supply the positions of the 501 cams during instantialization. Some sample patterns are provided in `lorenz.patterns`.
 
-The `SZ40`'s `vernam` method expects a list of five-bit integers representing the input stream in MSB-first ITA2 format. Again, a conversion utility, `lorenz.telegraphy`, is provided.
+The `SZ40`'s `feed` method expects a list of five-bit integers representing the input stream in MSB-first ITA2 format. A conversion utility, `lorenz.telegraphy`, is provided.
 
 ```python
 from lorenz.machines import SZ40
-from lorenz.patterns import KH
+from lorenz.patterns import KH_CAMS 
 from lorenz.telegraphy import Teleprinter
 
 # Encode the message as five-bit ITA2
 message = Teleprinter.encode("ATTACK99AT99DAWN")
 
 # Use the 'KH' pattern to encrypt the message.
-machine = SZ40(KH)
-ciphertext = machine.vernam(message)
+machine = SZ40(KH_CAMS)
+ciphertext = machine.feed(message)
 
 print(Teleprinter.decode(ciphertext)) # 9W3UMKEGPJZQOKXC
 ```
