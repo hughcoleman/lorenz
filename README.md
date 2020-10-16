@@ -37,7 +37,7 @@ This sample program has been designed to match the output of [this CyberChef rec
 
 ###### References
 
-* [*Breaking Teleprinter Ciphers at Bletchley Park: General Report on Tunny with Emphasis on Statistical Methods* (1945)](https://onlinelibrary.wiley.com/doi/book/10.1002/9781119061601)
+* [*Breaking Teleprinter Ciphers at Bletchley Park: General Report on Tunny with Emphasis on Statistical Methods* (1945)](https://doi.org/10.1002/9781119061601)
 
 ###### License
 
