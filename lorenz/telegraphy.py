@@ -21,26 +21,19 @@ class Teleprinter:
     from the ITA2/"Baudot" standard. """
     
     @staticmethod
-    def encode(message, alphabet=BP_SHIFTLESS_ITA2, complain=True):
+    def encode(message, alphabet=BP_SHIFTLESS_ITA2):
         """ Encode a string of English letters as a list of five-bit ITA2
         codepoints.
 
-        Illegal characters normally trigger a RuntimeError. This can be 
-        disabled by setting the `complain` parameter to a truthy value.
+        Illegal characters trigger a RuntimeError.
         """
 
         message = message.upper()
 
-        stream = []
-        for character in message:
-            if character in alphabet:
-                stream.append(alphabet.index(character))
-            elif complain:
-                raise RuntimeError(
-                  f"Teleprinter could not encrypt character \"{character}\"."
-                )
-        
-        return stream
+        if any(character not in alphabet for character in message):
+            raise RuntimeError("illegal character in message")
+            
+        return [alphabet.index(character) for character in message]
 
     @staticmethod
     def decode(stream):
@@ -48,16 +41,10 @@ class Teleprinter:
         letters.
         """
         
-        message = ""
-        for character in stream:
-            if (character < 0) or (character >= 32):
-                raise RuntimeError(
-                  "Teleprinter could not decrypt character " +\
-                  f"\"{bin(character)[2:].zfill(5)}\"."
-                )
-            message += BP_SHIFTLESS_ITA2[character]
+        if any((character < 0) or (character >= 32) for character in stream):
+            raise RuntimeError("illegal byte in stream")
         
-        return message
+        return "".join(BP_SHIFTLESS_ITA2[character] for character in stream)
 
     @staticmethod
     def dotcross(stream):
@@ -65,10 +52,10 @@ class Teleprinter:
         and crosses (+) representation.
         """
 
-        if all(bit in [0, 1] for bit in stream):
-            return "".join(".+"[bit] for bit in stream)
-
-        raise RuntimeError("a non-binary sequence was supplied.")
+        if any(bit not in [0, 1] for bit in stream):
+            raise RuntimeError("a non-binary sequence was supplied.")
+        
+        return "".join(".+"[bit] for bit in stream)
 
     @staticmethod
     def binarify(stream):
@@ -76,7 +63,7 @@ class Teleprinter:
         stream of zeroes and ones.
         """
 
-        if all(symbol in [".", "+"] for symbol in stream):
-            return [".+".index(symbol) for symbol in stream]
+        if any(symbol not in [".", "+"] for symbol in stream):
+            raise RuntimeError("a non-dotcross sequence was supplied.")
 
-        raise RuntimeError("a non-dotcross sequence was supplied.")
+        return [".+".index(symbol) for symbol in stream]
