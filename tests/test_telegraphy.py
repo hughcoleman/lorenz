@@ -32,10 +32,10 @@ class TestTeleprinter(unittest.TestCase):
             Teleprinter.encode("STATION99X")
         )
 
-        # we should also test to ensure that the complain flag is working.
-        self.assertEqual(
-            [12, 9, 9, 16, 11, 24, 9, 14, 5, 24, 10, 24, 14, 1, 16, 10, 20],
-            Teleprinter.encode("ILLEGAL CHARACTERS!", complain=False)
+        # we should also test to ensure that the program complains
+        self.assertRaises(
+            RuntimeError,
+            Teleprinter.encode, "ILLEGAL CHARACTERS!"
         )
 
     def test__decode(self):
