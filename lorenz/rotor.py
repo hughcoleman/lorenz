@@ -131,6 +131,9 @@ class RotorSet:
             if positions is None:
                 positions = [0] * len(rotors)
 
+            if len(rotors) != len(positions):
+                raise ValueError("mismatched rotors and positions")
+
             self.rotors = [
                 Rotor(rotor, position) for rotor, position in \
                     zip(rotors, positions)
@@ -207,6 +210,9 @@ class MotorSet:
         elif all(type(rotor) is list for rotor in rotors):
             if positions is None:
                 positions = [0] * len(rotors)
+
+            if len(rotors) != len(positions):
+                raise ValueError("mismatched rotors and positions")
 
             self.rotors = [
                 Rotor(rotor, position) for rotor, position in \
