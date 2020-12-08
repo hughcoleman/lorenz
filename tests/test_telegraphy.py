@@ -21,7 +21,8 @@ class TestTeleprinter(unittest.TestCase):
         )
 
         self.assertEqual(
-            [19, 12, 9, 9, 4, 4, 1, 28, 1, 1, 16], Teleprinter.encode("BILL99TUTTE")
+            [19, 12, 9, 9, 4, 4, 1, 28, 1, 1, 16],
+            Teleprinter.encode("BILL99TUTTE"),
         )
 
         self.assertEqual(
@@ -30,11 +31,14 @@ class TestTeleprinter(unittest.TestCase):
         )
 
         self.assertEqual(
-            [20, 1, 24, 1, 12, 3, 6, 4, 4, 23], Teleprinter.encode("STATION99X")
+            [20, 1, 24, 1, 12, 3, 6, 4, 4, 23],
+            Teleprinter.encode("STATION99X"),
         )
 
         # we should also test to ensure that the program complains
-        self.assertRaises(RuntimeError, Teleprinter.encode, "ILLEGAL CHARACTERS!")
+        self.assertRaises(
+            RuntimeError, Teleprinter.encode, "ILLEGAL CHARACTERS!"
+        )
 
     def test__decode(self):
         self.assertEqual(
@@ -43,16 +47,20 @@ class TestTeleprinter(unittest.TestCase):
         )
 
         self.assertEqual(
-            "BILL99TUTTE", Teleprinter.decode([19, 12, 9, 9, 4, 4, 1, 28, 1, 1, 16])
+            "BILL99TUTTE",
+            Teleprinter.decode([19, 12, 9, 9, 4, 4, 1, 28, 1, 1, 16]),
         )
 
         self.assertEqual(
             "BLETCHLEY99PARK",
-            Teleprinter.decode([19, 9, 16, 1, 14, 5, 9, 16, 21, 4, 4, 13, 24, 10, 30]),
+            Teleprinter.decode(
+                [19, 9, 16, 1, 14, 5, 9, 16, 21, 4, 4, 13, 24, 10, 30]
+            ),
         )
 
         self.assertEqual(
-            "STATION99X", Teleprinter.decode([20, 1, 24, 1, 12, 3, 6, 4, 4, 23])
+            "STATION99X",
+            Teleprinter.decode([20, 1, 24, 1, 12, 3, 6, 4, 4, 23]),
         )
 
         self.assertEqual(
@@ -67,11 +75,15 @@ class TestTeleprinter(unittest.TestCase):
 
         self.assertEqual(".++..", Teleprinter.dotcross([0, 1, 1, 0, 0]))
 
-        self.assertEqual("+..++.++.", Teleprinter.dotcross([1, 0, 0, 1, 1, 0, 1, 1, 0]))
+        self.assertEqual(
+            "+..++.++.", Teleprinter.dotcross([1, 0, 0, 1, 1, 0, 1, 1, 0])
+        )
 
         self.assertEqual(
             "++..+++.....+..",
-            Teleprinter.dotcross([1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0]),
+            Teleprinter.dotcross(
+                [1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0]
+            ),
         )
 
         self.assertEqual(
@@ -86,7 +98,9 @@ class TestTeleprinter(unittest.TestCase):
 
         self.assertEqual([0, 1, 1, 0, 0], Teleprinter.binarify(".++.."))
 
-        self.assertEqual([1, 0, 0, 1, 1, 0, 1, 1, 0], Teleprinter.binarify("+..++.++."))
+        self.assertEqual(
+            [1, 0, 0, 1, 1, 0, 1, 1, 0], Teleprinter.binarify("+..++.++.")
+        )
 
         self.assertEqual(
             [1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0],

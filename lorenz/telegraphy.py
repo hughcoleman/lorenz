@@ -18,12 +18,12 @@ BP_SHIFTLESS_ITA2 = list("/T3O9HNM4LRGIPCVEZDBSYFXAWJ+UQK8")
 
 
 class Teleprinter:
-    """ This class implements static methods that convert English text to and
-    from the ITA2/"Baudot" standard. """
+    """This class implements static methods that convert English text to and
+    from the ITA2/"Baudot" standard."""
 
     @staticmethod
     def encode(message, alphabet=BP_SHIFTLESS_ITA2):
-        """ Encode a string of English letters as a list of five-bit ITA2
+        """Encode a string of English letters as a list of five-bit ITA2
         codepoints.
 
         Illegal characters trigger a RuntimeError.
@@ -38,7 +38,7 @@ class Teleprinter:
 
     @staticmethod
     def decode(stream):
-        """ Decode a list of five-bit ITA2 codepoints to a string of English
+        """Decode a list of five-bit ITA2 codepoints to a string of English
         letters.
         """
 
@@ -49,7 +49,7 @@ class Teleprinter:
 
     @staticmethod
     def dotcross(stream):
-        """ Convert a stream of zeroes and ones to the corresponding dots (.)
+        """Convert a stream of zeroes and ones to the corresponding dots (.)
         and crosses (+) representation.
         """
 
@@ -60,7 +60,7 @@ class Teleprinter:
 
     @staticmethod
     def binarify(stream):
-        """ Convert a stream of dots (.) and crosses (+) to the corresponding
+        """Convert a stream of dots (.) and crosses (+) to the corresponding
         stream of zeroes and ones.
         """
 

@@ -41,14 +41,14 @@ class SZ40:
             self.psi.backstep()
 
     def state(self):
-        """ Return the pseudorandom value in the active position(s) of the
+        """Return the pseudorandom value in the active position(s) of the
         Chi and Psi rotors.
         """
 
         return self.chi.state() ^ self.psi.state()
 
     def feed(self, stream):
-        """ Feed a stream of information into the machine, using Lorenz
+        """Feed a stream of information into the machine, using Lorenz
         to generate the key.
 
         Each character in the input stream is XOR'ed with the current state of
@@ -66,7 +66,7 @@ class SZ40:
         return output
 
     def __init__(self, rotors):
-        """ Create a Lorenz SZ-40 machine.
+        """Create a Lorenz SZ-40 machine.
 
         rotors
             Specify the rotor settings with which to construct this machine

@@ -34,11 +34,17 @@ class TestRotorSet(unittest.TestCase):
         self.assertRaises(ValueError, RotorSet, ["a", "b", "c", "d", "e"])
 
         self.assertRaises(
-            ValueError, RotorSet, ZMUG_CAMS["chi"], positions=[1, 2, 3, 4, 5, 6]
+            ValueError,
+            RotorSet,
+            ZMUG_CAMS["chi"],
+            positions=[1, 2, 3, 4, 5, 6],
         )
 
         self.assertRaises(
-            ValueError, RotorSet, ZMUG_CAMS["chi"], positions=[100, 100, 100, 100, 100]
+            ValueError,
+            RotorSet,
+            ZMUG_CAMS["chi"],
+            positions=[100, 100, 100, 100, 100],
         )
 
     def test__step(self):
@@ -73,9 +79,13 @@ class TestMotorSet(unittest.TestCase):
     def test__instantiate_invalid(self):
         self.assertRaises(ValueError, MotorSet, ["a", "b"])
 
-        self.assertRaises(ValueError, MotorSet, ZMUG_CAMS["mu"], positions=[1, 2, 3])
+        self.assertRaises(
+            ValueError, MotorSet, ZMUG_CAMS["mu"], positions=[1, 2, 3]
+        )
 
-        self.assertRaises(ValueError, MotorSet, ZMUG_CAMS["mu"], positions=[100, 100])
+        self.assertRaises(
+            ValueError, MotorSet, ZMUG_CAMS["mu"], positions=[100, 100]
+        )
 
     def test__step(self):
         rotors = MotorSet(ZMUG_CAMS["mu"], positions=[21, 18])
@@ -93,7 +103,8 @@ class TestMotorSet(unittest.TestCase):
         # if it works a few times, it's probably fine.
         for i in range(16):
             self.assertEqual(
-                [1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0][i], rotors.state()
+                [1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0][i],
+                rotors.state(),
             )
 
             rotors.step()

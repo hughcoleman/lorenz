@@ -32,7 +32,7 @@ class Rotor:
         return self.pins[self.position]
 
     def __init__(self, pins, position=0):
-        """ Create a Rotor.
+        """Create a Rotor.
 
         pins
             Provide a list of bits representing the positions of the cams/pins
@@ -65,7 +65,7 @@ class Rotor:
 
 
 class RotorSet:
-    """ Emulate a set of synchronized rotors. When stepped, all rotors in the
+    """Emulate a set of synchronized rotors. When stepped, all rotors in the
     set will step simultaneously.
 
     The Chi and Psi rotors are examples of RotorSets.
@@ -82,7 +82,7 @@ class RotorSet:
             rotor.step()
 
     def state(self):
-        """ Return an n-bit (n being the number of rotors in this RotorSet)
+        """Return an n-bit (n being the number of rotors in this RotorSet)
         integer, based on the states of the rotors in this RotorSet.
 
         The most significant bit of this integer will correspond to the state
@@ -100,7 +100,7 @@ class RotorSet:
         return [len(rotor) for rotor in self.rotors]
 
     def __init__(self, rotors, positions=None):
-        """ Create a RotorSet.
+        """Create a RotorSet.
 
         rotors
             Specify the rotors with which to constuct this RotorSet. This must
@@ -135,7 +135,8 @@ class RotorSet:
                 raise ValueError("mismatched rotors and positions")
 
             self.rotors = [
-                Rotor(rotor, position) for rotor, position in zip(rotors, positions)
+                Rotor(rotor, position)
+                for rotor, position in zip(rotors, positions)
             ]
 
         else:
@@ -143,7 +144,7 @@ class RotorSet:
 
 
 class MotorSet:
-    """ Emulate a set of staggered rotors.
+    """Emulate a set of staggered rotors.
 
     When stepped, the rotors in this MotorSet step in a "staggered" fashion. In
     general, the state of the nth rotor in a MotorSet determines if the n+1th
@@ -178,7 +179,7 @@ class MotorSet:
         return [len(rotor) for rotor in self.rotors]
 
     def __init__(self, rotors, positions=None):
-        """ Create a MotorSet.
+        """Create a MotorSet.
 
         rotors
             Specify the rotors with which to constuct this MotorSet. This must
@@ -213,7 +214,8 @@ class MotorSet:
                 raise ValueError("mismatched rotors and positions")
 
             self.rotors = [
-                Rotor(rotor, position) for rotor, position in zip(rotors, positions)
+                Rotor(rotor, position)
+                for rotor, position in zip(rotors, positions)
             ]
 
         else:
