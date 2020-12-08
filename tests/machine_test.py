@@ -3,7 +3,7 @@
 
 # test_machine.py
 # Copyright (c) 2020 Hugh Coleman
-# 
+#
 # This file is part of hughcoleman/lorenz, a historically accurate simulator of
 # the Lorenz SZ40 Cipher Machine. It is released under the MIT License (see
 # LICENSE.)
@@ -15,22 +15,16 @@ from lorenz.telegraphy import Teleprinter
 from lorenz.patterns import KH_CAMS
 
 ciphertext = Teleprinter.encode("9W3UMKEGPJZQOKXC")
-plaintext  = Teleprinter.encode("ATTACK99AT99DAWN")
+plaintext = Teleprinter.encode("ATTACK99AT99DAWN")
+
 
 class TestSZ40(unittest.TestCase):
-
     def test__encrypt(self):
         machine = SZ40(rotors=KH_CAMS)
-        
-        self.assertEqual(
-            ciphertext,
-            machine.feed(plaintext)
-        )
+
+        self.assertEqual(ciphertext, machine.feed(plaintext))
 
     def test__decrypt(self):
         machine = SZ40(rotors=KH_CAMS)
 
-        self.assertEqual(
-            plaintext,
-            machine.feed(ciphertext)
-        )
+        self.assertEqual(plaintext, machine.feed(ciphertext))

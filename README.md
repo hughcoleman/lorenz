@@ -20,7 +20,7 @@ The `SZ40`'s `feed` method expects a list of five-bit integers representing the 
 
 ```python
 from lorenz.machines import SZ40
-from lorenz.patterns import KH_CAMS 
+from lorenz.patterns import KH_CAMS
 from lorenz.telegraphy import Teleprinter
 
 # Encode the message as five-bit ITA2
