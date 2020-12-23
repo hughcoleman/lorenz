@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 # machines.py
 # Copyright (c) 2020 Hugh Coleman
 #
 # This file is part of hughcoleman/lorenz, a historically accurate simulator of
 # the Lorenz SZ40 Cipher Machine. It is released under the MIT License (see
 # LICENSE.)
-
 """ A historically-accurate implementation of the Lorenz SZ-40 machine.
 
 The RotorSet and MotorSet classes are abstracted upon to create an emulator for
@@ -19,8 +17,9 @@ following Wikipedia articles:
  - https://en.wikipedia.org/wiki/Cryptanalysis_of_the_Lorenz_cipher
 
 """
-
-from lorenz.rotor import Rotor, RotorSet, MotorSet
+from lorenz.rotor import MotorSet
+from lorenz.rotor import Rotor
+from lorenz.rotor import RotorSet
 
 
 class SZ40:

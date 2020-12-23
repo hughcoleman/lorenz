@@ -1,18 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 # test_machine.py
 # Copyright (c) 2020 Hugh Coleman
 #
 # This file is part of hughcoleman/lorenz, a historically accurate simulator of
 # the Lorenz SZ40 Cipher Machine. It is released under the MIT License (see
 # LICENSE.)
-
 import unittest
 
 from lorenz.machines import SZ40
-from lorenz.telegraphy import Teleprinter
 from lorenz.patterns import KH_CAMS
+from lorenz.telegraphy import Teleprinter
 
 ciphertext = Teleprinter.encode("9W3UMKEGPJZQOKXC")
 plaintext = Teleprinter.encode("ATTACK99AT99DAWN")

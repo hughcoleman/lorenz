@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 # telegraphy.py
 # Copyright (c) 2020 Hugh Coleman
 #
 # This file is part of hughcoleman/lorenz, a historically accurate simulator of
 # the Lorenz SZ40 Cipher Machine. It is released under the MIT License (see
 # LICENSE.)
-
 """ Aids in the conversion English text (expressed in "Bletchley Shiftless"
 format) to and from the five-bit ITA2 "Baudot" standard.
 """
-
 # The folks at Bletchley Park used a "shiftless" variant of the ITA2, as it
 # allowed for easier cryptanalysis.
 BP_SHIFTLESS_ITA2 = list("/T3O9HNM4LRGIPCVEZDBSYFXAWJ+UQK8")

@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 # setup.py
 # Copyright (c) 2020 Hugh Coleman
 #
 # This file is part of hughcoleman/lorenz, a historically accurate simulator of
 # the Lorenz SZ40 Cipher Machine. It is released under the MIT License (see
 # LICENSE.)
+from pathlib import Path
 
 import setuptools
-import lorenz
 
-from pathlib import Path
+import lorenz
 
 with open(Path(__file__).parent / "README.md", "r") as fh:
     long_description = fh.read()

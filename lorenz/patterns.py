@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 # patterns.py
 # Copyright (c) 2020 Hugh Coleman
 #
 # This file is part of hughcoleman/lorenz, a historically accurate simulator of
 # the Lorenz SZ40 Cipher Machine. It is released under the MIT License (see
 # LICENSE.)
-
 """ At the beginning of the war, German operators were only changing the cam
 settings once every few weeks - this allowed many of the initial British
 breaks. By the end of the war, the Germans had realized their mistake, and were
