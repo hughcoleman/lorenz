@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/C._Lorenz_logo.png">
+  <img src="https://raw.githubusercontent.com/hughcoleman/lorenz/files/c_lorenz_ag.png" />
 </p>
 
 <p align="center">
