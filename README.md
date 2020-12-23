@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <b>A historically accurate simulator of the Lorenz SZ40 Cipher Machine.</b>
+  <b>A historically accurate simulator of the Lorenz SZ40 Cipher Machine</b>
 </p>
 
 The Lorenz machines were a set of electro-mechanical cipher machines used by the German High Command during World War II. They were developed by C. Lorenz AG in Berlin. At its core, the machines were essentially (flawed) pseudorandom number generators that encrypted and/or decrypted streams using the [Vernam cipher](https://en.wikipedia.org/wiki/Gilbert_Vernam#The_Vernam_cipher).
