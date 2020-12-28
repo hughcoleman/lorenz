@@ -9,11 +9,35 @@
 import argparse
 
 import lorenz.machine
+
+# import auxillary devices
 import lorenz.patterns
 import lorenz.telegraphy
 
-# import auxiliary devices
+def parse(settings):
+    """ Parse the notation in the command-line parameters. """
 
+    # This regular expression (generally) matches the format below.
+    # 
+    #     S1-S2-S3-S4-S5,M37-M61,X1-X2-X3-X4-X5
+    #
+    # Valid separators are commas and dashes. So long as a consistent separator 
+    # is used to separate rotors from other rotors in the same group, and 
+    # groups of rotors from each other, then it will be matched.
+    # 
+    # Validating the numerals in each "slot" is handled later, so that the user
+    # can be provided decent feedback as to what is wrong with their notation.
+        
+    notation = re.compile(
+        r"\b(\d{1,2})([\-,])(\d{1,2})\2(\d{1,2})\2(\d{1,2})\2(\d{1,2})([\-,])(\d{1,2})\2(\d{1,2})(\10)(\d{1,2})\2(\d{1,2})\2(\d{1,2})\2(\d{1,2})\2(\d{1,2})\b"
+    )
+
+    if not (groups := re.search(notation, settings)):  # noqa: E231
+        raise ValueError("Unrecognized positions format.")
+
+    # filter out separators and cast to int.
+    positions = [int(position) for position in groups if position.isdigit()]
+        
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
@@ -27,8 +51,8 @@ if __name__ == "__main__":
     )
 
     # configure: machine cipher settings
-    parser.add_argument("-c", "--cams", help="set cam patterns")
-    parser.add_argument("-p", "--positions", help="rotor positions in a ()")
+    parser.add_argument("-c", "--cams", help="cam patterns")
+    parser.add_argument("-p", "--positions", help="rotor positions, in standard german format")
 
     # configure: input stream
     parser.add_argument(
