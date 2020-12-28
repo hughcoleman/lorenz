@@ -36,8 +36,34 @@ def parse(settings):
         raise ValueError("Unrecognized positions format.")
 
     # filter out separators and cast to int.
-    positions = [int(position) for position in groups if position.isdigit()]
-        
+    positions = [
+        int(position) for position in groups.groups() if position.isdigit()
+    ]
+    
+    # check the ensure the positions are within the acceptable bounds - this is
+    # a list of tuples, rather than a dictionary, to ensure consistent 
+    # iteration order across different Python interpreters.
+    rotors = [
+        ("psi1", 43),
+        ("psi2", 47),
+        ("psi3", 51),
+        ("psi4", 53),
+        ("psi5", 59),
+        ("mu37", 37),
+        ("mu61", 61),
+        ("chi1", 41),
+        ("chi2", 31),
+        ("chi3", 29),
+        ("chi4", 26),
+        ("chi5", 23)
+    ]
+    
+    for (rotor, size), position in zip(rotors, positions):
+        if position <= 0 or position > size:
+            raise ValueError(f"Position of {rotor} rotor is outside of the allowed bounds (1-{size}).")
+    
+    return positions
+    
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
