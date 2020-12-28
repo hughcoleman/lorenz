@@ -12,7 +12,7 @@ import lorenz.machine
 
 # import auxillary devices
 import lorenz.patterns
-import lorenz.telegraphy
+from lorenz.telegraphy import Teleprinter
 
 # rotor sizes
 ROTORS = [
@@ -141,4 +141,13 @@ additional information:
     cams, positions = parse(args)
 
     # create an instance of SZ40 with the supplied parameters.
-    machine = lorenz.machine.SZ40(None)
+    machine = lorenz.machine.SZ40(cams, positions=positions)
+    
+    # feed the stream to the machine
+    out = Teleprinter.decode(
+        machine.feed(
+            Teleprinter.encode(args.input.read())
+        )
+    )
+    
+    print(out)
