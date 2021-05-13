@@ -64,14 +64,23 @@ class SZ40:
 
         return output
 
-    def __init__(self, rotors):
+    def __init__(self, rotors, positions=None):
         """Create a Lorenz SZ-40 machine.
 
         rotors
             Specify the rotor settings with which to construct this machine
             using a dictionary with three keys: `chi`, `psi`, and `mu`.
+
+        positions
+            Specify the initial rotor positions using a dictionary with three
+            keys: `chi`, `psi`, and `mu`.
         """
 
-        self.chi = RotorSet(rotors["chi"])
-        self.psi = RotorSet(rotors["psi"])
-        self.mu = MotorSet(rotors["mu"])
+        if positions is None:
+            self.chi = RotorSet(rotors["chi"])
+            self.psi = RotorSet(rotors["psi"])
+            self.mu = MotorSet(rotors["mu"])
+        else:
+            self.chi = RotorSet(rotors["chi"], positions=positions["chi"])
+            self.psi = RotorSet(rotors["psi"], positions=positions["psi"])
+            self.mu = MotorSet(rotors["mu"], positions=positions["mu"])

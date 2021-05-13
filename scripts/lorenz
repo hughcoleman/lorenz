@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# lorenz
+# Copyright (c) 2020 Hugh Coleman
+#
+# This file is part of hughcoleman/lorenz, a historically accurate simulator of
+# the Lorenz SZ40 Cipher Machine. It is released under the MIT License (see
+# LICENSE.)
+import argparse
+import os
+import re
+
+import lorenz.machines
+import lorenz.patterns
+from lorenz.telegraphy import Teleprinter
+
+# import auxillary devices
+
+# rotor sizes
+ROTORS = [
+    ("psi1", 43),
+    ("psi2", 47),
+    ("psi3", 51),
+    ("psi4", 53),
+    ("psi5", 59),
+    ("mu37", 37),
+    ("mu61", 61),
+    ("chi1", 41),
+    ("chi2", 31),
+    ("chi3", 29),
+    ("chi4", 26),
+    ("chi5", 23),
+]
+
+
+def parse(args):
+    """ Parse command-line arguments. """
+
+    # First, we attempt to parse the cam settings.
+    if os.path.isfile(args.cams):
+        with open(args.cams, "r") as fh:
+            cams = [cam.strip() for cam in fh.read().strip().split("\n")]
+
+        if len(cams) != 12:
+            raise ValueError(f"Unexpected number of rotors in {args.cams}.")
+
+        # Check the ensure the cams specified are correct.
+        parsed = []
+        for (rotor, size), cam in zip(ROTORS, cams):
+            if len(cam) != size:
+                raise ValueError(
+                    f"Number of cams on {rotor} rotor is incorrect (expected {size})."
+                )
+
+            # Check to ensure all are 0/1 or ./+
+            if all(c in ["0", "1"] for c in cam):
+                parsed.append([int(c) for c in cam])
+            elif all(c in [".", "+"] for c in cam):
+                parsed.append([".+".index(c) for c in cam])
+            else:
+                raise ValueError(f"Illegal character in {rotor} rotor.")
+
+        cams = {
+            "chi": parsed[7:12],
+            "psi": parsed[0:5],
+            # The mu rotors need to be reversed, as the order they are specified
+            # in standard German order is the opposite of the order used by the
+            # MotorSet class.
+            "mu": parsed[5:7][::-1],
+        }
+
+    else:
+        known = {
+            "kh": lorenz.patterns.KH_CAMS,
+            "zmug": lorenz.patterns.ZMUG_CAMS,
+            "bream": lorenz.patterns.BREAM_CAMS,
+        }
+
+        cams = known.get(args.cams.lower(), lorenz.patterns.KH_CAMS)
+
+    # Now, we can parse the initial positions.
+
+    # This regular expression (generally) matches the position format below.
+    #
+    #     S1-S2-S3-S4-S5,M37-M61,X1-X2-X3-X4-X5
+    #
+    # Valid separators are commas and dashes. So long as a consistent separator
+    # is used to separate rotors from other rotors in the same group, and
+    # groups of rotors from each other, then it will be matched.
+    #
+    # Validating the numerals in each "slot" is handled later, so that the user
+    # can be provided decent feedback as to what is wrong with their notation.
+
+    notation = re.compile(
+        r"\b(\d+)([\-,])(\d+)\2(\d+)\2(\d+)\2(\d+)([\-,])(\d+)\2(\d+)\7(\d+)\2(\d+)\2(\d+)\2(\d+)\2(\d+)\b"
+    )
+
+    if not (groups := re.search(notation, args.positions)):  # noqa: E231
+        raise ValueError("Unrecognized positions format.")
+
+    # Filter out separators, and cast to integers.
+    positions = [
+        int(position) - 1 for position in groups.groups() if position.isdigit()
+    ]
+
+    # Check the ensure the positions are within the acceptable bounds
+    for (rotor, size), position in zip(ROTORS, positions):
+        if position < 0 or position >= size:
+            raise ValueError(
+                f"Position of {rotor} rotor is outside of the allowed bounds (1-{size})."
+            )
+
+    # Refactor as a dictionary.
+    positions = {
+        "chi": [
+            positions[7],
+            positions[8],
+            positions[9],
+            positions[10],
+            positions[11],
+        ],
+        "psi": [
+            positions[0],
+            positions[1],
+            positions[2],
+            positions[3],
+            positions[4],
+        ],
+        "mu": [positions[5], positions[6]][::-1],
+    }
+
+    return (cams, positions)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""\
+additional information:
+    Both the --cams and --positions arguments should specify their settings in
+    standard German order. That is;
+
+        psi1-psi2-psi3-psi4-psi5,mu37-mu61,chi1-chi2-chi3-chi4-chi5
+
+    The --cams argument should specify a path to a file, which contains twelve
+    lines. Each line should specify the cams positions of the corresponding
+    rotor, using zeroes/ones or dots/crosses. If such a file does not exist, one
+    of the known settings will be used instead.
+
+    The --positions argument should specify a comma- or dash-separated list of
+    integers, each specifying the initial start position of the corresponding
+    rotor.
+""",
+    )
+
+    # configure: machine cipher settings
+    parser.add_argument("-c", "--cams", help="cam patterns")
+    parser.add_argument("-p", "--positions", help="rotor positions")
+
+    # configure: input stream
+    parser.add_argument(
+        "input",
+        type=argparse.FileType("r"),
+        help="input text to encrypt/decrypt",
+    )
+
+    args = parser.parse_args()
+
+    # parse the supplied settings
+    cams, positions = parse(args)
+
+    # create an instance of SZ40 with the supplied parameters.
+    machine = lorenz.machines.SZ40(cams, positions=positions)
+
+    # feed the stream to the machine
+    print(
+        Teleprinter.decode(
+            machine.feed(Teleprinter.encode(args.input.read().strip()))
+        )
+    )

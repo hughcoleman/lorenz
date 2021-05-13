@@ -37,6 +37,32 @@ print(Teleprinter.decode(ciphertext)) # 9W3UMKEGPJZQOKXC
 
 This sample program has been designed to match [this CyberChef recipe](https://gchq.github.io/CyberChef/#recipe=Lorenz('SZ40','Custom',false,'Send','ITA2','Plaintext','5/8/9',1,1,1,1,1,1,1,1,1,1,1,1,'x.x...xx.x.x..xxx.x.x.xxxx.x.x.x.x.x..x.xx.','x.xx.x.xxx..x.x.x..x.xx.x.xxx.x....x.xx.x.x.x..','x.x.x.x..xxx....x.x.xx.x.x.x..xxx.x.x..x.x.xx..x.x.','..xx...xxxxx.x.x.xx...x.xx.x.x..x.x.xx.x..x.x.x.x.x.x','.xx...xx.x..x.xx.x...x.x.x.x.x.x.x.x.xx..xxxx.x.x...xx.x..x','.x.x.x.x.x.x...x.x.x...x.x.x...x.x...','..xxxx.xxxx.xxx.xxxx.xx....xxx.xxxx.xxxx.xxxx.xxxx.xxx.xxxx..','..x...xxx.x.xxxx.x...x.x..xxx....xx.xxxx.','.x..xxx...x.xxxx..xx..x..xx.xx.','...xx..x.xxx...xx...xx..xx.xx','.xx..x..xxxx..xx.xxx....x.','.xx..xx....xxxx.x..x.x.')&input=QVRUQUNLOTlBVDk5REFXTg).
 
+Alternatively, use [the command-line program](https://github.com/hughcoleman/lorenz/blob/main/scripts/lorenz).
+
+```bash
+$ cat message
+ATTACK99AT99DAWN
+$ cat cams
++.++.+..+.+.+.+.+.++++.+.+.+++..+.+.++...+.
++..+.+.+.++.+....+.+++.+.++.+..+.+.+..+++.+.++.
++.+.+..++.+.+..+.+.+++..+.+.+.++.+.+....+++..+.+.+.
+.+.+.+.+.+.+..+.++.+.+..+.+.++.+...++.+.+.+++++...++.
+.+..+.++...+.+.++++..++.+.+.+.+.+.+.+.+...+.++.+..+.++...++
+....+.+...+.+.+...+.+.+...+.+.+.+.+.+
+...++++.+++.++++.++++.++++.++++.+++....++.++++.+++.++++.++++.
+..++++.++....+++..+.+...+.++++.+.+++...+.
+..++.++..+..++..++++.+...+++..+
+.++.++..++...++...+++.+..++..
+..+....+++.++..++++..+..++
+..+.+..+.++++....++..++
+$ ./lorenz --cams cams --positions "1-1-1-1-1,1-1,1-1-1-1-1" message
+9W3UMKEGPJZQOKXC
+$ ./lorenz --cams cams --positions "1-2-3-4-5,6-7,8-9-10-11-12" message
+JPOMQV44BUOZAECE
+```
+
+The second example mimics [this CyberChef recipe](https://gchq.github.io/CyberChef/#recipe=Lorenz('SZ40','Custom',false,'Send','ITA2','Plaintext','5/8/9',1,47,50,51,56,33,56,35,24,21,17,13,'x.x...xx.x.x..xxx.x.x.xxxx.x.x.x.x.x..x.xx.','x.xx.x.xxx..x.x.x..x.xx.x.xxx.x....x.xx.x.x.x..','x.x.x.x..xxx....x.x.xx.x.x.x..xxx.x.x..x.x.xx..x.x.','..xx...xxxxx.x.x.xx...x.xx.x.x..x.x.xx.x..x.x.x.x.x.x','.xx...xx.x..x.xx.x...x.x.x.x.x.x.x.x.xx..xxxx.x.x...xx.x..x','.x.x.x.x.x.x...x.x.x...x.x.x...x.x...','..xxxx.xxxx.xxx.xxxx.xx....xxx.xxxx.xxxx.xxxx.xxxx.xxx.xxxx..','..x...xxx.x.xxxx.x...x.x..xxx....xx.xxxx.','.x..xxx...x.xxxx..xx..x..xx.xx.','...xx..x.xxx...xx...xx..xx.xx','.xx..x..xxxx..xx.xxx....x.','.xx..xx....xxxx.x..x.x.')&input=QVRUQUNLOTlBVDk5REFXTg). *Note that the initial positions are different*, as the CyberChef implementation of the Lorenz machine labels cams and numbers positions in reverse (compared to this implementation.) Thus, to convert from our numbering system to theirs, calculate **(ROTOR SIZE - ONE-INDEXED POSITION + 2) mod ROTOR SIZE**. If the result is zero, use **ROTOR SIZE** instead.
+
 ###### References
 
 * Diffie, W., Field, J. V., &amp; Reeds, J. A. (Eds.). (2015). *Breaking teleprinter ciphers at Bletchley Park: An edition of General report on Tunny with emphasis on statistical methods (1945)*. <!-- Hoboken, NJ: John Wiley &amp; Sons. --> [https://doi.org/10.1002/9781119061601](https://doi.org/10.1002/9781119061601)
