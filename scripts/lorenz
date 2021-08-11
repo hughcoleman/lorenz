@@ -14,9 +14,7 @@ import lorenz.machines
 import lorenz.patterns
 from lorenz.telegraphy import Teleprinter
 
-# import auxillary devices
-
-# rotor sizes
+# Lorenz Rotor sizes
 ROTORS = [
     ("psi1", 43),
     ("psi2", 47),
